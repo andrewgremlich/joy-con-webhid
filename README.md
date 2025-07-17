@@ -70,13 +70,11 @@ setInterval(async () => {
     // Rumble.
     await joyCon.rumble(600, 600, 0.5);
     // Turn On and Off the Home LED 3 times
-    await joyCon.setHomeLEDPattern(
-      2, 3, 0, [
-        { intensity: 0, fadeDuration: 10, duration: 5 },
-        { intensity: 15, fadeDuration: 10, duration: 5 },
-        { intensity: 0, fadeDuration: 10, duration: 5 },
-      ]
-    );
+    await joyCon.setHomeLEDPattern(2, 3, 0, [
+      { intensity: 0, fadeDuration: 10, duration: 5 },
+      { intensity: 15, fadeDuration: 10, duration: 5 },
+      { intensity: 0, fadeDuration: 10, duration: 5 },
+    ]);
     // Listen for HID input reports.
     joyCon.addEventListener('hidinput', ({ detail }) => {
       // Careful, this fires at ~60fps.

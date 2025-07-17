@@ -109,7 +109,7 @@ const visualize = (joyCon, packet) => {
   }
   if (buttons.home) {
     //joyCon.setHomeLED(true);
-    joyCon.setHomeLEDPattern( 5, 1, 15, [] );
+    joyCon.setHomeLEDPattern(5, 1, 15, []);
   }
 
   if (showDebug.checked) {
