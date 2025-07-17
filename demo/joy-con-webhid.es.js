@@ -1,1070 +1,730 @@
-var Ee = Object.defineProperty;
-var Ae = (e, t, n) =>
-  t in e
-    ? Ee(e, t, { enumerable: !0, configurable: !0, writable: !0, value: n })
-    : (e[t] = n);
-var ue = (e, t, n) => Ae(e, typeof t != 'symbol' ? t + '' : t, n);
-const xe = async (e) => {
-  const t =
-      ({
-        subcommand: s,
-        expectedReport: l,
-        timeoutErrorMessage: u = 'timeout.',
-      }) =>
-      (f) =>
-        new Promise((M, w) => {
-          const R = setTimeout(() => {
-              (f.removeEventListener('inputreport', B), w(new Error(u)));
-            }, 5e3),
-            B = (L) => {
-              const j = L;
-              if (j.reportId !== 33) return;
-              const E = new Uint8Array(j.data.buffer);
-              for (const [A, x] of Object.entries(l))
-                if (E[Number(A) - 1] !== x) return;
-              (f.removeEventListener('inputreport', B),
-                clearTimeout(R),
-                setTimeout(M, 50));
-            };
-          (f.addEventListener('inputreport', B),
-            (async () =>
-              await f.sendReport(
-                1,
-                new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0, 0, ...s])
-              ))());
-        }),
-    n = t({
-      subcommand: [34, 1],
-      expectedReport: {
-        13: 128,
-        14: 34,
-      },
-    }),
-    o = t({
-      subcommand: [
-        33, 33, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 243,
-      ],
-      expectedReport: {
-        14: 33,
-      },
-    }),
-    a = t({
-      subcommand: [89],
-      expectedReport: {
-        14: 89,
-        16: 32,
-      },
-      timeoutErrorMessage: 'ring-con not found.',
-    }),
-    p = t({
-      subcommand: [
-        92, 6, 3, 37, 6, 0, 0, 0, 0, 28, 22, 237, 52, 54, 0, 0, 0, 10, 100, 11,
-        230, 169, 34, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 144, 168, 225, 52, 54,
-      ],
-      expectedReport: {
-        14: 92,
-      },
-    }),
-    i = t({
-      subcommand: [90, 4, 1, 1, 2],
-      expectedReport: {
-        14: 90,
-      },
-    });
-  (await n(e), await o(e), await a(e), await p(e), await i(e));
+const Et = async (t) => {
+  const e = ({
+    subcommand: u,
+    expectedReport: a,
+    timeoutErrorMessage: r = "timeout."
+  }) => (p) => new Promise((q, I) => {
+    const b = setTimeout(() => {
+      p.removeEventListener("inputreport", L), I(new Error(r));
+    }, 5e3), L = (C) => {
+      const O = C;
+      if (O.reportId !== 33)
+        return;
+      const A = new Uint8Array(O.data.buffer);
+      for (const [k, x] of Object.entries(a))
+        if (A[Number(k) - 1] !== x)
+          return;
+      p.removeEventListener("inputreport", L), clearTimeout(b), setTimeout(q, 50);
+    };
+    p.addEventListener("inputreport", L), (async () => await p.sendReport(
+      1,
+      new Uint8Array([
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        ...u
+      ])
+    ))();
+  }), n = e({
+    subcommand: [34, 1],
+    expectedReport: {
+      13: 128,
+      14: 34
+    }
+  }), o = e({
+    subcommand: [
+      33,
+      33,
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      243
+    ],
+    expectedReport: {
+      14: 33
+    }
+  }), l = e({
+    subcommand: [89],
+    expectedReport: {
+      14: 89,
+      16: 32
+    },
+    timeoutErrorMessage: "ring-con not found."
+  }), h = e({
+    subcommand: [
+      92,
+      6,
+      3,
+      37,
+      6,
+      0,
+      0,
+      0,
+      0,
+      28,
+      22,
+      237,
+      52,
+      54,
+      0,
+      0,
+      0,
+      10,
+      100,
+      11,
+      230,
+      169,
+      34,
+      0,
+      0,
+      4,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      144,
+      168,
+      225,
+      52,
+      54
+    ],
+    expectedReport: {
+      14: 92
+    }
+  }), s = e({
+    subcommand: [90, 4, 1, 1, 2],
+    expectedReport: {
+      14: 90
+    }
+  });
+  await n(t), await o(t), await l(t), await h(t), await s(t);
 };
-function Fe(e) {
-  return e && e.__esModule && Object.prototype.hasOwnProperty.call(e, 'default')
-    ? e.default
-    : e;
+function St(t) {
+  return t && t.__esModule && Object.prototype.hasOwnProperty.call(t, "default") ? t.default : t;
 }
-var fe, Me;
-function Be() {
-  return (
-    Me ||
-      ((Me = 1),
-      (fe = function (t, n) {
-        n = n || {};
-        const o = n.kp || 1,
-          a = n.ki || 0;
-        let i = 1 / (1e3 / t),
-          s = n.doInitialisation !== !0,
-          l = 2 * o;
-        const u = 2 * a;
-        let f = 1,
-          M = 0,
-          w = 0,
-          R = 0,
-          B = 0,
-          L = 0,
-          j = 0;
-        function E(c, r, d, q, h, b) {
-          let v, m, _, P, F, J, U;
-          (q !== 0 &&
-            h !== 0 &&
-            b !== 0 &&
-            ((v = (q * q + h * h + b * b) ** -0.5),
-            (q *= v),
-            (h *= v),
-            (b *= v),
-            (m = M * R - f * w),
-            (_ = f * M + w * R),
-            (P = f * f - 0.5 + R * R),
-            (F = h * P - b * _),
-            (J = b * m - q * P),
-            (U = q * _ - h * m),
-            u > 0
-              ? ((B += u * F * i),
-                (L += u * J * i),
-                (j += u * U * i),
-                (c += B),
-                (r += L),
-                (d += j))
-              : ((B = 0), (L = 0), (j = 0)),
-            (c += l * F),
-            (r += l * J),
-            (d += l * U)),
-            (c *= 0.5 * i),
-            (r *= 0.5 * i),
-            (d *= 0.5 * i));
-          const C = f,
-            N = M,
-            H = w;
-          ((f += -N * c - H * r - R * d),
-            (M += C * c + H * d - R * r),
-            (w += C * r - N * d + R * c),
-            (R += C * d + N * r - H * c),
-            (v = (f * f + M * M + w * w + R * R) ** -0.5),
-            (f *= v),
-            (M *= v),
-            (w *= v),
-            (R *= v));
-        }
-        function A(c, r, d, q, h, b) {
-          return {
-            x: r * b - d * h,
-            y: d * q - c * b,
-            z: c * h - r * q,
-          };
-        }
-        function x(c, r, d, q, h, b) {
-          const v = -Math.atan2(c, Math.sqrt(r * r + d * d)),
-            m = A(c, r, d, 1, 0, 0),
-            _ = A(1, 0, 0, m.x, m.y, m.z),
-            P = Math.atan2(_.y, _.z),
-            F = Math.cos(P),
-            J = Math.sin(v),
-            U = Math.sin(P),
-            C = h * F - b * U,
-            N = q * Math.cos(v) + h * U * J + b * F * J;
-          return {
-            heading: -Math.atan2(C, N),
-            pitch: v,
-            roll: P,
-          };
-        }
-        function S(c) {
-          const r = Math.cos(c.heading * 0.5),
-            d = Math.sin(c.heading * 0.5),
-            q = Math.cos(c.pitch * 0.5),
-            h = Math.sin(c.pitch * 0.5),
-            b = Math.cos(c.roll * 0.5),
-            v = Math.sin(c.roll * 0.5);
-          return {
-            w: b * q * r + v * h * d,
-            x: v * q * r - b * h * d,
-            y: b * h * r + v * q * d,
-            z: b * q * d - v * h * r,
-          };
-        }
-        function I(c, r, d, q, h, b) {
-          const v = x(c, r, d, q, h, b),
-            m = S(v),
-            _ = (m.w * m.w + m.x * m.x + m.y * m.y + m.z * m.z) ** -0.5;
-          ((f = m.w * _),
-            (M = m.x * _),
-            (w = m.y * _),
-            (R = m.z * _),
-            (s = !0));
-        }
-        function k(c, r, d, q, h, b, v, m, _, P) {
-          ((i = P || i), s || I(q, h, b, v, m, _));
-          let F,
-            J,
-            U,
-            C,
-            N,
-            H,
-            V,
-            T,
-            G,
-            g,
-            y,
-            W,
-            le,
-            se,
-            X,
-            Y,
-            ae,
-            Z,
-            z,
-            ce,
-            D,
-            K,
-            ee,
-            $;
-          if (
-            v === void 0 ||
-            m === void 0 ||
-            _ === void 0 ||
-            (v === 0 && m === 0 && _ === 0)
-          ) {
-            E(c, r, d, q, h, b);
-            return;
-          }
-          (q !== 0 &&
-            h !== 0 &&
-            b !== 0 &&
-            ((F = (q * q + h * h + b * b) ** -0.5),
-            (q *= F),
-            (h *= F),
-            (b *= F),
-            (F = (v * v + m * m + _ * _) ** -0.5),
-            (v *= F),
-            (m *= F),
-            (_ *= F),
-            (J = f * f),
-            (U = f * M),
-            (C = f * w),
-            (N = f * R),
-            (H = M * M),
-            (V = M * w),
-            (T = M * R),
-            (G = w * w),
-            (g = w * R),
-            (y = R * R),
-            (W = 2 * (v * (0.5 - G - y) + m * (V - N) + _ * (T + C))),
-            (le = 2 * (v * (V + N) + m * (0.5 - H - y) + _ * (g - U))),
-            (se = Math.sqrt(W * W + le * le)),
-            (X = 2 * (v * (T - C) + m * (g + U) + _ * (0.5 - H - G))),
-            (Y = T - C),
-            (ae = U + g),
-            (Z = J - 0.5 + y),
-            (z = se * (0.5 - G - y) + X * (T - C)),
-            (ce = se * (V - N) + X * (U + g)),
-            (D = se * (C + T) + X * (0.5 - H - G)),
-            (K = h * Z - b * ae + (m * D - _ * ce)),
-            (ee = b * Y - q * Z + (_ * z - v * D)),
-            ($ = q * ae - h * Y + (v * ce - m * z)),
-            u > 0
-              ? ((B += u * K * i),
-                (L += u * ee * i),
-                (j += u * $ * i),
-                (c += B),
-                (r += L),
-                (d += j))
-              : ((B = 0), (L = 0), (j = 0)),
-            (c += l * K),
-            (r += l * ee),
-            (d += l * $)),
-            (c *= 0.5 * i),
-            (r *= 0.5 * i),
-            (d *= 0.5 * i));
-          const te = f,
-            Q = M,
-            O = w;
-          ((f += -Q * c - O * r - R * d),
-            (M += te * c + O * d - R * r),
-            (w += te * r - Q * d + R * c),
-            (R += te * d + Q * r - O * c),
-            (F = (f * f + M * M + w * w + R * R) ** -0.5),
-            (f *= F),
-            (M *= F),
-            (w *= F),
-            (R *= F));
-        }
-        return {
-          update: k,
-          init: I,
-          getQuaternion() {
-            return {
-              w: f,
-              x: M,
-              y: w,
-              z: R,
-            };
-          },
-        };
-      })),
-    fe
-  );
-}
-var ve, Ie;
-function Le() {
-  return (
-    Ie ||
-      ((Ie = 1),
-      (ve = function (t, n) {
-        n = n || {};
-        const o = 1e3 / t;
-        let a = n.beta || 0.4,
-          p = n.doInitialisation !== !0,
-          i = 1,
-          s = 0,
-          l = 0,
-          u = 0,
-          f = 1 / o;
-        function M(E, A, x, S, I, k) {
-          let c, r, d, q, h, b, v, m, _, P, F, J, U, C, N, H, V, T, G, g, y, W;
-          ((b = 0.5 * (-s * E - l * A - u * x)),
-            (v = 0.5 * (i * E + l * x - u * A)),
-            (m = 0.5 * (i * A - s * x + u * E)),
-            (_ = 0.5 * (i * x + s * A - l * E)),
-            (S === 0 && I === 0 && k === 0) ||
-              ((c = (S * S + I * I + k * k) ** -0.5),
-              (S *= c),
-              (I *= c),
-              (k *= c),
-              (P = 2 * i),
-              (F = 2 * s),
-              (J = 2 * l),
-              (U = 2 * u),
-              (C = 4 * i),
-              (N = 4 * s),
-              (H = 4 * l),
-              (V = 8 * s),
-              (T = 8 * l),
-              (G = i * i),
-              (g = s * s),
-              (y = l * l),
-              (W = u * u),
-              (r = C * y + J * S + C * g - F * I),
-              (d =
-                N * W - U * S + 4 * G * s - P * I - N + V * g + V * y + N * k),
-              (q =
-                4 * G * l + P * S + H * W - U * I - H + T * g + T * y + H * k),
-              (h = 4 * g * u - F * S + 4 * y * u - J * I),
-              (c = (r * r + d * d + q * q + h * h) ** -0.5),
-              (r *= c),
-              (d *= c),
-              (q *= c),
-              (h *= c),
-              (b -= a * r),
-              (v -= a * d),
-              (m -= a * q),
-              (_ -= a * h)),
-            (i += b * f),
-            (s += v * f),
-            (l += m * f),
-            (u += _ * f),
-            (c = (i * i + s * s + l * l + u * u) ** -0.5),
-            (i *= c),
-            (s *= c),
-            (l *= c),
-            (u *= c));
-        }
-        function w(E, A, x, S, I, k) {
-          return {
-            x: A * k - x * I,
-            y: x * S - E * k,
-            z: E * I - A * S,
-          };
-        }
-        function R(E, A, x, S, I, k) {
-          const c = -Math.atan2(E, Math.sqrt(A * A + x * x)),
-            r = w(E, A, x, 1, 0, 0),
-            d = w(1, 0, 0, r.x, r.y, r.z),
-            q = Math.atan2(d.y, d.z),
-            h = Math.cos(q),
-            b = Math.sin(c),
-            v = Math.sin(q),
-            m = I * h - k * v,
-            _ = S * Math.cos(c) + I * v * b + k * h * b;
-          return {
-            heading: -Math.atan2(m, _),
-            pitch: c,
-            roll: q,
-          };
-        }
-        function B(E) {
-          const A = Math.cos(E.heading * 0.5),
-            x = Math.sin(E.heading * 0.5),
-            S = Math.cos(E.pitch * 0.5),
-            I = Math.sin(E.pitch * 0.5),
-            k = Math.cos(E.roll * 0.5),
-            c = Math.sin(E.roll * 0.5);
-          return {
-            w: k * S * A + c * I * x,
-            x: c * S * A - k * I * x,
-            y: k * I * A + c * S * x,
-            z: k * S * x - c * I * A,
-          };
-        }
-        function L(E, A, x, S, I, k) {
-          const c = R(E, A, x, S, I, k),
-            r = B(c),
-            d = (r.w * r.w + r.x * r.x + r.y * r.y + r.z * r.z) ** -0.5;
-          ((i = r.w * d),
-            (s = r.x * d),
-            (l = r.y * d),
-            (u = r.z * d),
-            (p = !0));
-        }
-        function j(E, A, x, S, I, k, c, r, d, q) {
-          ((f = q || f), p || L(S, I, k, c, r, d));
-          let h,
-            b,
-            v,
-            m,
-            _,
-            P,
-            F,
-            J,
-            U,
-            C,
-            N,
-            H,
-            V,
-            T,
-            G,
-            g,
-            y,
-            W,
-            le,
-            se,
-            X,
-            Y,
-            ae,
-            Z,
-            z,
-            ce,
-            D,
-            K,
-            ee,
-            $,
-            te,
-            Q,
-            O,
-            he,
-            re;
-          if (
-            c === void 0 ||
-            r === void 0 ||
-            d === void 0 ||
-            (c === 0 && r === 0 && d === 0)
-          ) {
-            M(E, A, x, S, I, k);
-            return;
-          }
-          ((P = 0.5 * (-s * E - l * A - u * x)),
-            (F = 0.5 * (i * E + l * x - u * A)),
-            (J = 0.5 * (i * A - s * x + u * E)),
-            (U = 0.5 * (i * x + s * A - l * E)),
-            (S === 0 && I === 0 && k === 0) ||
-              ((h = (S * S + I * I + k * k) ** -0.5),
-              (S *= h),
-              (I *= h),
-              (k *= h),
-              (h = (c * c + r * r + d * d) ** -0.5),
-              (c *= h),
-              (r *= h),
-              (d *= h),
-              (H = 2 * i * c),
-              (V = 2 * i * r),
-              (T = 2 * i * d),
-              (G = 2 * s * c),
-              (se = 2 * i),
-              (X = 2 * s),
-              (Y = 2 * l),
-              (ae = 2 * u),
-              (Z = 2 * i * l),
-              (z = 2 * l * u),
-              (ce = i * i),
-              (D = i * s),
-              (K = i * l),
-              (ee = i * u),
-              ($ = s * s),
-              (te = s * l),
-              (Q = s * u),
-              (O = l * l),
-              (he = l * u),
-              (re = u * u),
-              (C =
-                c * ce -
-                V * u +
-                T * l +
-                c * $ +
-                X * r * l +
-                X * d * u -
-                c * O -
-                c * re),
-              (N =
-                H * u +
-                r * ce -
-                T * s +
-                G * l -
-                r * $ +
-                r * O +
-                Y * d * u -
-                r * re),
-              (g = Math.sqrt(C * C + N * N)),
-              (y =
-                -H * l +
-                V * s +
-                d * ce +
-                G * u -
-                d * $ +
-                Y * r * u -
-                d * O +
-                d * re),
-              (W = 2 * g),
-              (le = 2 * y),
-              (b =
-                -Y * (2 * Q - Z - S) +
-                X * (2 * D + z - I) -
-                y * l * (g * (0.5 - O - re) + y * (Q - K) - c) +
-                (-g * u + y * s) * (g * (te - ee) + y * (D + he) - r) +
-                g * l * (g * (K + Q) + y * (0.5 - $ - O) - d)),
-              (v =
-                ae * (2 * Q - Z - S) +
-                se * (2 * D + z - I) -
-                4 * s * (1 - 2 * $ - 2 * O - k) +
-                y * u * (g * (0.5 - O - re) + y * (Q - K) - c) +
-                (g * l + y * i) * (g * (te - ee) + y * (D + he) - r) +
-                (g * u - le * s) * (g * (K + Q) + y * (0.5 - $ - O) - d)),
-              (m =
-                -se * (2 * Q - Z - S) +
-                ae * (2 * D + z - I) -
-                4 * l * (1 - 2 * $ - 2 * O - k) +
-                (-W * l - y * i) * (g * (0.5 - O - re) + y * (Q - K) - c) +
-                (g * s + y * u) * (g * (te - ee) + y * (D + he) - r) +
-                (g * i - le * l) * (g * (K + Q) + y * (0.5 - $ - O) - d)),
-              (_ =
-                X * (2 * Q - Z - S) +
-                Y * (2 * D + z - I) +
-                (-W * u + y * s) * (g * (0.5 - O - re) + y * (Q - K) - c) +
-                (-g * i + y * l) * (g * (te - ee) + y * (D + he) - r) +
-                g * s * (g * (K + Q) + y * (0.5 - $ - O) - d)),
-              (h = (b * b + v * v + m * m + _ * _) ** -0.5),
-              (b *= h),
-              (v *= h),
-              (m *= h),
-              (_ *= h),
-              (P -= a * b),
-              (F -= a * v),
-              (J -= a * m),
-              (U -= a * _)),
-            (i += P * f),
-            (s += F * f),
-            (l += J * f),
-            (u += U * f),
-            (h = (i * i + s * s + l * l + u * u) ** -0.5),
-            (i *= h),
-            (s *= h),
-            (l *= h),
-            (u *= h));
-        }
-        return {
-          update: j,
-          init: L,
-          getQuaternion() {
-            return {
-              w: i,
-              x: s,
-              y: l,
-              z: u,
-            };
-          },
-        };
-      })),
-    ve
-  );
-}
-var me, _e;
-function Ue() {
-  if (_e) return me;
-  _e = 1;
-  const e = 180 / Math.PI;
-  function t(n) {
+var pt, qt;
+function At() {
+  return qt || (qt = 1, pt = function(e, n) {
     n = n || {};
-    const o = n.sampleInterval || 20,
-      a = n.algorithm || 'Madgwick';
-    let p;
-    if (a === 'Mahony') p = Be();
-    else if (a === 'Madgwick') p = Le();
-    else throw new Error(`AHRS(): Algorithm not valid: ${a}`);
-    const i = p(o, n),
-      s = this;
-    Object.keys(i).forEach((l) => (s[l] = i[l]));
-  }
-  return (
-    (t.prototype.toVector = function () {
-      const o = this.getQuaternion(),
-        a = 2 * Math.acos(o.w),
-        p = Math.sin(a / 2);
+    const o = n.kp || 1, l = n.ki || 0;
+    let s = 1 / (1e3 / e), u = n.doInitialisation !== !0, a = 2 * o;
+    const r = 2 * l;
+    let p = 1, q = 0, I = 0, b = 0, L = 0, C = 0, O = 0;
+    function A(i, c, d, M, f, w) {
+      let v, m, y, P, F, j, B;
+      M !== 0 && f !== 0 && w !== 0 && (v = (M * M + f * f + w * w) ** -0.5, M *= v, f *= v, w *= v, m = q * b - p * I, y = p * q + I * b, P = p * p - 0.5 + b * b, F = f * P - w * y, j = w * m - M * P, B = M * y - f * m, r > 0 ? (L += r * F * s, C += r * j * s, O += r * B * s, i += L, c += C, d += O) : (L = 0, C = 0, O = 0), i += a * F, c += a * j, d += a * B), i *= 0.5 * s, c *= 0.5 * s, d *= 0.5 * s;
+      const U = p, N = q, D = I;
+      p += -N * i - D * c - b * d, q += U * i + D * d - b * c, I += U * c - N * d + b * i, b += U * d + N * c - D * i, v = (p * p + q * q + I * I + b * b) ** -0.5, p *= v, q *= v, I *= v, b *= v;
+    }
+    function k(i, c, d, M, f, w) {
       return {
-        angle: a,
-        x: o.x / p,
-        y: o.y / p,
-        z: o.z / p,
+        x: c * w - d * f,
+        y: d * M - i * w,
+        z: i * f - c * M
       };
-    }),
-    (t.prototype.getEulerAngles = function () {
-      const o = this.getQuaternion(),
-        a = o.w * o.w,
-        p = o.x * o.x,
-        i = o.y * o.y,
-        s = o.z * o.z;
+    }
+    function x(i, c, d, M, f, w) {
+      const v = -Math.atan2(i, Math.sqrt(c * c + d * d)), m = k(i, c, d, 1, 0, 0), y = k(1, 0, 0, m.x, m.y, m.z), P = Math.atan2(y.y, y.z), F = Math.cos(P), j = Math.sin(v), B = Math.sin(P), U = f * F - w * B, N = M * Math.cos(v) + f * B * j + w * F * j;
       return {
-        heading: Math.atan2(2 * (o.x * o.y + o.z * o.w), p - i - s + a),
-        pitch: -Math.asin(2 * (o.x * o.z - o.y * o.w)),
-        roll: Math.atan2(2 * (o.y * o.z + o.x * o.w), -p - i + s + a),
+        heading: -Math.atan2(U, N),
+        pitch: v,
+        roll: P
       };
-    }),
-    (t.prototype.getEulerAnglesDegrees = function () {
-      const o = this.getEulerAngles();
+    }
+    function R(i) {
+      const c = Math.cos(i.heading * 0.5), d = Math.sin(i.heading * 0.5), M = Math.cos(i.pitch * 0.5), f = Math.sin(i.pitch * 0.5), w = Math.cos(i.roll * 0.5), v = Math.sin(i.roll * 0.5);
       return {
-        heading: o.heading * e,
-        pitch: o.pitch * e,
-        roll: o.roll * e,
+        w: w * M * c + v * f * d,
+        x: v * M * c - w * f * d,
+        y: w * f * c + v * M * d,
+        z: w * M * d - v * f * c
       };
-    }),
-    (me = t),
-    me
-  );
+    }
+    function _(i, c, d, M, f, w) {
+      const v = x(i, c, d, M, f, w), m = R(v), y = (m.w * m.w + m.x * m.x + m.y * m.y + m.z * m.z) ** -0.5;
+      p = m.w * y, q = m.x * y, I = m.y * y, b = m.z * y, u = !0;
+    }
+    function S(i, c, d, M, f, w, v, m, y, P) {
+      s = P || s, u || _(M, f, w, v, m, y);
+      let F, j, B, U, N, D, V, Q, $, g, E, W, lt, it, X, Y, at, Z, z, ct, G, K, tt, T;
+      if (v === void 0 || m === void 0 || y === void 0 || v === 0 && m === 0 && y === 0) {
+        A(i, c, d, M, f, w);
+        return;
+      }
+      M !== 0 && f !== 0 && w !== 0 && (F = (M * M + f * f + w * w) ** -0.5, M *= F, f *= F, w *= F, F = (v * v + m * m + y * y) ** -0.5, v *= F, m *= F, y *= F, j = p * p, B = p * q, U = p * I, N = p * b, D = q * q, V = q * I, Q = q * b, $ = I * I, g = I * b, E = b * b, W = 2 * (v * (0.5 - $ - E) + m * (V - N) + y * (Q + U)), lt = 2 * (v * (V + N) + m * (0.5 - D - E) + y * (g - B)), it = Math.sqrt(W * W + lt * lt), X = 2 * (v * (Q - U) + m * (g + B) + y * (0.5 - D - $)), Y = Q - U, at = B + g, Z = j - 0.5 + E, z = it * (0.5 - $ - E) + X * (Q - U), ct = it * (V - N) + X * (B + g), G = it * (U + Q) + X * (0.5 - D - $), K = f * Z - w * at + (m * G - y * ct), tt = w * Y - M * Z + (y * z - v * G), T = M * at - f * Y + (v * ct - m * z), r > 0 ? (L += r * K * s, C += r * tt * s, O += r * T * s, i += L, c += C, d += O) : (L = 0, C = 0, O = 0), i += a * K, c += a * tt, d += a * T), i *= 0.5 * s, c *= 0.5 * s, d *= 0.5 * s;
+      const et = p, J = q, H = I;
+      p += -J * i - H * c - b * d, q += et * i + H * d - b * c, I += et * c - J * d + b * i, b += et * d + J * c - H * i, F = (p * p + q * q + I * I + b * b) ** -0.5, p *= F, q *= F, I *= F, b *= F;
+    }
+    return {
+      update: S,
+      init: _,
+      getQuaternion() {
+        return {
+          w: p,
+          x: q,
+          y: I,
+          z: b
+        };
+      }
+    };
+  }), pt;
 }
-var Ce = Ue();
-const Re = /* @__PURE__ */ Fe(Ce);
-function Ne(e, t) {
+var ft, Mt;
+function kt() {
+  return Mt || (Mt = 1, ft = function(e, n) {
+    n = n || {};
+    const o = 1e3 / e;
+    let l = n.beta || 0.4, h = n.doInitialisation !== !0, s = 1, u = 0, a = 0, r = 0, p = 1 / o;
+    function q(A, k, x, R, _, S) {
+      let i, c, d, M, f, w, v, m, y, P, F, j, B, U, N, D, V, Q, $, g, E, W;
+      w = 0.5 * (-u * A - a * k - r * x), v = 0.5 * (s * A + a * x - r * k), m = 0.5 * (s * k - u * x + r * A), y = 0.5 * (s * x + u * k - a * A), R === 0 && _ === 0 && S === 0 || (i = (R * R + _ * _ + S * S) ** -0.5, R *= i, _ *= i, S *= i, P = 2 * s, F = 2 * u, j = 2 * a, B = 2 * r, U = 4 * s, N = 4 * u, D = 4 * a, V = 8 * u, Q = 8 * a, $ = s * s, g = u * u, E = a * a, W = r * r, c = U * E + j * R + U * g - F * _, d = N * W - B * R + 4 * $ * u - P * _ - N + V * g + V * E + N * S, M = 4 * $ * a + P * R + D * W - B * _ - D + Q * g + Q * E + D * S, f = 4 * g * r - F * R + 4 * E * r - j * _, i = (c * c + d * d + M * M + f * f) ** -0.5, c *= i, d *= i, M *= i, f *= i, w -= l * c, v -= l * d, m -= l * M, y -= l * f), s += w * p, u += v * p, a += m * p, r += y * p, i = (s * s + u * u + a * a + r * r) ** -0.5, s *= i, u *= i, a *= i, r *= i;
+    }
+    function I(A, k, x, R, _, S) {
+      return {
+        x: k * S - x * _,
+        y: x * R - A * S,
+        z: A * _ - k * R
+      };
+    }
+    function b(A, k, x, R, _, S) {
+      const i = -Math.atan2(A, Math.sqrt(k * k + x * x)), c = I(A, k, x, 1, 0, 0), d = I(1, 0, 0, c.x, c.y, c.z), M = Math.atan2(d.y, d.z), f = Math.cos(M), w = Math.sin(i), v = Math.sin(M), m = _ * f - S * v, y = R * Math.cos(i) + _ * v * w + S * f * w;
+      return {
+        heading: -Math.atan2(m, y),
+        pitch: i,
+        roll: M
+      };
+    }
+    function L(A) {
+      const k = Math.cos(A.heading * 0.5), x = Math.sin(A.heading * 0.5), R = Math.cos(A.pitch * 0.5), _ = Math.sin(A.pitch * 0.5), S = Math.cos(A.roll * 0.5), i = Math.sin(A.roll * 0.5);
+      return {
+        w: S * R * k + i * _ * x,
+        x: i * R * k - S * _ * x,
+        y: S * _ * k + i * R * x,
+        z: S * R * x - i * _ * k
+      };
+    }
+    function C(A, k, x, R, _, S) {
+      const i = b(A, k, x, R, _, S), c = L(i), d = (c.w * c.w + c.x * c.x + c.y * c.y + c.z * c.z) ** -0.5;
+      s = c.w * d, u = c.x * d, a = c.y * d, r = c.z * d, h = !0;
+    }
+    function O(A, k, x, R, _, S, i, c, d, M) {
+      p = M || p, h || C(R, _, S, i, c, d);
+      let f, w, v, m, y, P, F, j, B, U, N, D, V, Q, $, g, E, W, lt, it, X, Y, at, Z, z, ct, G, K, tt, T, et, J, H, dt, rt;
+      if (i === void 0 || c === void 0 || d === void 0 || i === 0 && c === 0 && d === 0) {
+        q(A, k, x, R, _, S);
+        return;
+      }
+      P = 0.5 * (-u * A - a * k - r * x), F = 0.5 * (s * A + a * x - r * k), j = 0.5 * (s * k - u * x + r * A), B = 0.5 * (s * x + u * k - a * A), R === 0 && _ === 0 && S === 0 || (f = (R * R + _ * _ + S * S) ** -0.5, R *= f, _ *= f, S *= f, f = (i * i + c * c + d * d) ** -0.5, i *= f, c *= f, d *= f, D = 2 * s * i, V = 2 * s * c, Q = 2 * s * d, $ = 2 * u * i, it = 2 * s, X = 2 * u, Y = 2 * a, at = 2 * r, Z = 2 * s * a, z = 2 * a * r, ct = s * s, G = s * u, K = s * a, tt = s * r, T = u * u, et = u * a, J = u * r, H = a * a, dt = a * r, rt = r * r, U = i * ct - V * r + Q * a + i * T + X * c * a + X * d * r - i * H - i * rt, N = D * r + c * ct - Q * u + $ * a - c * T + c * H + Y * d * r - c * rt, g = Math.sqrt(U * U + N * N), E = -D * a + V * u + d * ct + $ * r - d * T + Y * c * r - d * H + d * rt, W = 2 * g, lt = 2 * E, w = -Y * (2 * J - Z - R) + X * (2 * G + z - _) - E * a * (g * (0.5 - H - rt) + E * (J - K) - i) + (-g * r + E * u) * (g * (et - tt) + E * (G + dt) - c) + g * a * (g * (K + J) + E * (0.5 - T - H) - d), v = at * (2 * J - Z - R) + it * (2 * G + z - _) - 4 * u * (1 - 2 * T - 2 * H - S) + E * r * (g * (0.5 - H - rt) + E * (J - K) - i) + (g * a + E * s) * (g * (et - tt) + E * (G + dt) - c) + (g * r - lt * u) * (g * (K + J) + E * (0.5 - T - H) - d), m = -it * (2 * J - Z - R) + at * (2 * G + z - _) - 4 * a * (1 - 2 * T - 2 * H - S) + (-W * a - E * s) * (g * (0.5 - H - rt) + E * (J - K) - i) + (g * u + E * r) * (g * (et - tt) + E * (G + dt) - c) + (g * s - lt * a) * (g * (K + J) + E * (0.5 - T - H) - d), y = X * (2 * J - Z - R) + Y * (2 * G + z - _) + (-W * r + E * u) * (g * (0.5 - H - rt) + E * (J - K) - i) + (-g * s + E * a) * (g * (et - tt) + E * (G + dt) - c) + g * u * (g * (K + J) + E * (0.5 - T - H) - d), f = (w * w + v * v + m * m + y * y) ** -0.5, w *= f, v *= f, m *= f, y *= f, P -= l * w, F -= l * v, j -= l * m, B -= l * y), s += P * p, u += F * p, a += j * p, r += B * p, f = (s * s + u * u + a * a + r * r) ** -0.5, s *= f, u *= f, a *= f, r *= f;
+    }
+    return {
+      update: O,
+      init: C,
+      getQuaternion() {
+        return {
+          w: s,
+          x: u,
+          y: a,
+          z: r
+        };
+      }
+    };
+  }), ft;
+}
+var vt, It;
+function xt() {
+  if (It) return vt;
+  It = 1;
+  const t = 180 / Math.PI;
+  function e(n) {
+    n = n || {};
+    const o = n.sampleInterval || 20, l = n.algorithm || "Madgwick";
+    let h;
+    if (l === "Mahony")
+      h = At();
+    else if (l === "Madgwick")
+      h = kt();
+    else
+      throw new Error(`AHRS(): Algorithm not valid: ${l}`);
+    const s = h(o, n), u = this;
+    Object.keys(s).forEach((a) => u[a] = s[a]);
+  }
+  return e.prototype.toVector = function() {
+    const o = this.getQuaternion(), l = 2 * Math.acos(o.w), h = Math.sin(l / 2);
+    return {
+      angle: l,
+      x: o.x / h,
+      y: o.y / h,
+      z: o.z / h
+    };
+  }, e.prototype.getEulerAngles = function() {
+    const o = this.getQuaternion(), l = o.w * o.w, h = o.x * o.x, s = o.y * o.y, u = o.z * o.z;
+    return {
+      heading: Math.atan2(2 * (o.x * o.y + o.z * o.w), h - s - u + l),
+      pitch: -Math.asin(2 * (o.x * o.z - o.y * o.w)),
+      roll: Math.atan2(2 * (o.y * o.z + o.x * o.w), -h - s + u + l)
+    };
+  }, e.prototype.getEulerAnglesDegrees = function() {
+    const o = this.getEulerAngles();
+    return {
+      heading: o.heading * t,
+      pitch: o.pitch * t,
+      roll: o.roll * t
+    };
+  }, vt = e, vt;
+}
+var Ft = xt();
+const Lt = /* @__PURE__ */ St(Ft);
+function Bt(t, e) {
   let n;
-  for (const o of e) {
-    const a = t(o);
-    a !== void 0 && (n = n === void 0 ? a : n + a);
+  for (const o of t) {
+    const l = e(o);
+    l !== void 0 && (n = n === void 0 ? l : n + l);
   }
   return n;
 }
-function de(e, t = (n) => n) {
-  const n = e == null ? 0 : e.length,
-    o = Ne(e, t);
+function ut(t, e = (n) => n) {
+  const n = t == null ? 0 : t.length, o = Bt(t, e);
   return n ? o / n : Number.NaN;
 }
-function Pe(e) {
-  let t;
-  switch (e[0]) {
-    case '8':
-      t = 'full';
+function Ut(t) {
+  let e;
+  switch (t[0]) {
+    case "8":
+      e = "full";
       break;
-    case '4':
-      t = 'medium';
+    case "4":
+      e = "medium";
       break;
-    case '2':
-      t = 'low';
+    case "2":
+      e = "low";
       break;
-    case '1':
-      t = 'critical';
+    case "1":
+      e = "critical";
       break;
-    case '0':
-      t = 'empty';
+    case "0":
+      e = "empty";
       break;
     default:
-      t = 'charging';
+      e = "charging";
   }
-  return t;
+  return e;
 }
-const He = {
-    // biome-ignore lint/complexity/useSimpleNumberKeys:
-    1: 'Left Joy-Con',
-    // biome-ignore lint/complexity/useSimpleNumberKeys:
-    2: 'Right Joy-Con',
-    // biome-ignore lint/complexity/useSimpleNumberKeys:
-    3: 'Pro Controller',
-  },
-  pe = 0.75,
-  Oe = 0.0125,
-  ge = Math.PI / 2;
-function je(e, t, n, o) {
-  const a = Date.now(),
-    p = e.timestamp ? (a - e.timestamp) / 1e3 : 0;
-  e.timestamp = a;
-  const i = Math.sqrt(n.x ** 2 + n.y ** 2 + n.z ** 2);
-  return (
-    (e.alpha = (1 - Oe) * (e.alpha + t.z * p)),
-    i !== 0 &&
-      ((e.beta = pe * (e.beta + t.x * p) + (1 - pe) * ((n.x * ge) / i)),
-      (e.gamma = pe * (e.gamma + t.y * p) + (1 - pe) * ((n.y * -ge) / i))),
-    {
-      alpha:
-        o === 8198
-          ? ((((-1 * (e.alpha * 180)) / Math.PI) * 430) % 90).toFixed(6)
-          : ((((e.alpha * 180) / Math.PI) * 430) % 360).toFixed(6),
-      beta: ((-1 * (e.beta * 180)) / Math.PI).toFixed(6),
-      gamma:
-        o === 8198
-          ? ((-1 * (e.gamma * 180)) / Math.PI).toFixed(6)
-          : ((e.gamma * 180) / Math.PI).toFixed(6),
-    }
+const Ct = {
+  // biome-ignore lint/complexity/useSimpleNumberKeys:
+  1: "Left Joy-Con",
+  // biome-ignore lint/complexity/useSimpleNumberKeys:
+  2: "Right Joy-Con",
+  // biome-ignore lint/complexity/useSimpleNumberKeys:
+  3: "Pro Controller"
+}, ht = 0.75, Nt = 0.0125, _t = Math.PI / 2;
+function Pt(t, e, n, o) {
+  const l = Date.now(), h = t.timestamp ? (l - t.timestamp) / 1e3 : 0;
+  t.timestamp = l;
+  const s = Math.sqrt(
+    n.x ** 2 + n.y ** 2 + n.z ** 2
   );
-}
-function Je(e) {
-  const t = 180 / Math.PI,
-    n = e.w * e.w,
-    o = e.x * e.x,
-    a = e.y * e.y,
-    p = e.z * e.z;
-  return {
-    alpha: (t * Math.atan2(2 * (e.x * e.y + e.z * e.w), o - a - p + n)).toFixed(
-      6
-    ),
-    beta: (t * -Math.asin(2 * (e.x * e.z - e.y * e.w))).toFixed(6),
-    gamma: (
-      t * Math.atan2(2 * (e.y * e.z + e.x * e.w), -o - a + p + n)
-    ).toFixed(6),
+  return t.alpha = (1 - Nt) * (t.alpha + e.z * h), s !== 0 && (t.beta = ht * (t.beta + e.x * h) + (1 - ht) * (n.x * _t / s), t.gamma = ht * (t.gamma + e.y * h) + (1 - ht) * (n.y * -_t / s)), {
+    alpha: o === 8198 ? (-1 * (t.alpha * 180) / Math.PI * 430 % 90).toFixed(6) : (t.alpha * 180 / Math.PI * 430 % 360).toFixed(6),
+    beta: (-1 * (t.beta * 180) / Math.PI).toFixed(6),
+    gamma: o === 8198 ? (-1 * (t.gamma * 180) / Math.PI).toFixed(6) : (t.gamma * 180 / Math.PI).toFixed(6)
   };
 }
-function ne(e) {
-  const t = new DataView(e.buffer);
-  return Number.parseFloat((244e-6 * t.getInt16(0, !0)).toFixed(6));
-}
-function oe(e) {
-  const t = new DataView(e.buffer);
-  return Number.parseFloat((0.06103 * t.getInt16(0, !0)).toFixed(6));
-}
-function ie(e) {
-  const t = new DataView(e.buffer);
-  return Number.parseFloat((1694e-7 * t.getInt16(0, !0)).toFixed(6));
-}
-function Qe(e) {
-  const t = e.slice(15, 26),
-    n = t.slice(0, 1)[0],
-    o = t.slice(1, 2)[0],
-    a = t.slice(2, 3),
-    p = t.slice(4, 10),
-    i = [];
-  for (const u of p) i.push(u.toString(16));
-  const s = t.slice(11, 12);
+function Dt(t) {
+  const e = 180 / Math.PI, n = t.w * t.w, o = t.x * t.x, l = t.y * t.y, h = t.z * t.z;
   return {
-    _raw: t.slice(0, 12),
-    _hex: t.slice(0, 12),
+    alpha: (e * Math.atan2(2 * (t.x * t.y + t.z * t.w), o - l - h + n)).toFixed(6),
+    beta: (e * -Math.asin(2 * (t.x * t.z - t.y * t.w))).toFixed(6),
+    gamma: (e * Math.atan2(2 * (t.y * t.z + t.x * t.w), -o - l + h + n)).toFixed(6)
+  };
+}
+function nt(t) {
+  const e = new DataView(t.buffer);
+  return Number.parseFloat((244e-6 * e.getInt16(0, !0)).toFixed(6));
+}
+function ot(t) {
+  const e = new DataView(t.buffer);
+  return Number.parseFloat((0.06103 * e.getInt16(0, !0)).toFixed(6));
+}
+function st(t) {
+  const e = new DataView(t.buffer);
+  return Number.parseFloat((1694e-7 * e.getInt16(0, !0)).toFixed(6));
+}
+function Ht(t) {
+  const e = t.slice(15, 26), n = e.slice(0, 1)[0], o = e.slice(1, 2)[0], l = e.slice(2, 3), h = e.slice(4, 10), s = [];
+  for (const r of h)
+    s.push(r.toString(16));
+  const u = e.slice(11, 12);
+  return {
+    _raw: e.slice(0, 12),
+    _hex: e.slice(0, 12),
     firmwareVersion: {
       major: n,
-      minor: o,
+      minor: o
     },
-    type: He[a[0]],
-    macAddress: i.join(':'),
-    spiColorInUse: s[0] === 1,
+    type: Ct[l[0]],
+    macAddress: s.join(":"),
+    spiColorInUse: u[0] === 1
   };
 }
-function Te(e, t) {
+function Ot(t, e) {
   return {
-    _raw: e.slice(0, 1),
+    _raw: t.slice(0, 1),
     // index 0
-    _hex: t.slice(0, 1),
+    _hex: e.slice(0, 1)
   };
 }
-function $e(e, t) {
+function jt(t, e) {
   return {
-    _raw: e.slice(1, 2),
+    _raw: t.slice(1, 2),
     // index 1
-    _hex: t.slice(1, 2),
+    _hex: e.slice(1, 2)
   };
 }
-function Ge(e, t) {
+function Jt(t, e) {
   return {
-    _raw: e.slice(2, 3),
+    _raw: t.slice(2, 3),
     // high nibble
-    _hex: t.slice(2, 3),
-    level: Pe(t.slice(2, 3)),
+    _hex: e.slice(2, 3),
+    level: Ut(e.slice(2, 3))
   };
 }
-function De(e, t) {
+function Qt(t, e) {
   return {
-    _raw: e.slice(2, 3),
+    _raw: t.slice(2, 3),
     // low nibble
-    _hex: t.slice(2, 3),
+    _hex: e.slice(2, 3)
   };
 }
-function Ke(e, t) {
+function Tt(t, e) {
   return {
-    _raw: e.slice(1, 3),
+    _raw: t.slice(1, 3),
     // index 1,2
-    _hex: t.slice(1, 3),
+    _hex: e.slice(1, 3)
   };
 }
-function Ve(e, t) {
+function $t(t, e) {
   return {
-    _raw: e.slice(3, 6),
+    _raw: t.slice(3, 6),
     // index 3,4,5
-    _hex: t.slice(3, 6),
+    _hex: e.slice(3, 6),
     // Byte 3 (Right Joy-Con)
-    y: !!(1 & e[3]),
-    x: !!(2 & e[3]),
-    b: !!(4 & e[3]),
-    a: !!(8 & e[3]),
-    r: !!(64 & e[3]),
-    zr: !!(128 & e[3]),
+    y: !!(1 & t[3]),
+    x: !!(2 & t[3]),
+    b: !!(4 & t[3]),
+    a: !!(8 & t[3]),
+    r: !!(64 & t[3]),
+    zr: !!(128 & t[3]),
     // Byte 5 (Left Joy-Con)
-    down: !!(1 & e[5]),
-    up: !!(2 & e[5]),
-    right: !!(4 & e[5]),
-    left: !!(8 & e[5]),
-    l: !!(64 & e[5]),
-    zl: !!(128 & e[5]),
+    down: !!(1 & t[5]),
+    up: !!(2 & t[5]),
+    right: !!(4 & t[5]),
+    left: !!(8 & t[5]),
+    l: !!(64 & t[5]),
+    zl: !!(128 & t[5]),
     // Byte 3,5 (Shared)
-    sr: !!(16 & e[3]) || !!(16 & e[5]),
-    sl: !!(32 & e[3]) || !!(32 & e[5]),
+    sr: !!(16 & t[3]) || !!(16 & t[5]),
+    sl: !!(32 & t[3]) || !!(32 & t[5]),
     // Byte 4 (Shared)
-    minus: !!(1 & e[4]),
-    plus: !!(2 & e[4]),
-    rightStick: !!(4 & e[4]),
-    leftStick: !!(8 & e[4]),
-    home: !!(16 & e[4]),
-    capture: !!(32 & e[4]),
-    chargingGrip: !!(128 & e[4]),
+    minus: !!(1 & t[4]),
+    plus: !!(2 & t[4]),
+    rightStick: !!(4 & t[4]),
+    leftStick: !!(8 & t[4]),
+    home: !!(16 & t[4]),
+    capture: !!(32 & t[4]),
+    chargingGrip: !!(128 & t[4])
   };
 }
-function We(e, t) {
+function Gt(t, e) {
   return {
-    _raw: e.slice(3, 4),
+    _raw: t.slice(3, 4),
     // index 3
-    _hex: t.slice(3, 4),
+    _hex: e.slice(3, 4)
   };
 }
-function Xe(e, t) {
-  let n = e[6] | ((e[7] & 15) << 8);
+function Kt(t, e) {
+  let n = t[6] | (t[7] & 15) << 8;
   n = (n / 1995 - 1) * 2;
-  let o = ((e[7] >> 4) | (e[8] << 4)) * -1;
-  return (
-    (o = (o / 2220 + 1) * 2),
-    {
-      _raw: e.slice(6, 9),
-      // index 6,7,8
-      _hex: t.slice(6, 9),
-      horizontal: n.toFixed(1),
-      vertical: o.toFixed(1),
-    }
-  );
+  let o = (t[7] >> 4 | t[8] << 4) * -1;
+  return o = (o / 2220 + 1) * 2, {
+    _raw: t.slice(6, 9),
+    // index 6,7,8
+    _hex: e.slice(6, 9),
+    horizontal: n.toFixed(1),
+    vertical: o.toFixed(1)
+  };
 }
-function Ye(e, t) {
-  let n = e[9] | ((e[10] & 15) << 8);
+function Vt(t, e) {
+  let n = t[9] | (t[10] & 15) << 8;
   n = (n / 1995 - 1) * 2;
-  let o = ((e[10] >> 4) | (e[11] << 4)) * -1;
-  return (
-    (o = (o / 2220 + 1) * 2),
-    {
-      _raw: e.slice(9, 12),
-      // index 9,10,11
-      _hex: t.slice(9, 12),
-      horizontal: n.toFixed(1),
-      vertical: o.toFixed(1),
-    }
-  );
+  let o = (t[10] >> 4 | t[11] << 4) * -1;
+  return o = (o / 2220 + 1) * 2, {
+    _raw: t.slice(9, 12),
+    // index 9,10,11
+    _hex: e.slice(9, 12),
+    horizontal: n.toFixed(1),
+    vertical: o.toFixed(1)
+  };
 }
-function Ze(e, t) {
+function Wt(t, e) {
   return {
-    _raw: e.slice(4),
+    _raw: t.slice(4),
     // index 4
-    _hex: t.slice(4),
+    _hex: e.slice(4)
   };
 }
-function ze(e, t) {
+function Xt(t, e) {
   return {
-    _raw: e.slice(12, 13),
+    _raw: t.slice(12, 13),
     // index 12
-    _hex: t.slice(12, 13),
+    _hex: e.slice(12, 13)
   };
 }
-function et(e, t) {
+function Yt(t, e) {
   return {
-    _raw: e.slice(13, 14),
+    _raw: t.slice(13, 14),
     // index 13
-    _hex: t.slice(13, 14),
+    _hex: e.slice(13, 14)
   };
 }
-function tt(e, t) {
+function Zt(t, e) {
   return {
-    _raw: e.slice(14, 15),
+    _raw: t.slice(14, 15),
     // index 14
-    _hex: t.slice(14, 15),
+    _hex: e.slice(14, 15)
   };
 }
-function nt(e, t) {
+function zt(t, e) {
   return {
-    _raw: e.slice(15),
+    _raw: t.slice(15),
     // index 15 ~
-    _hex: t.slice(15),
+    _hex: e.slice(15)
   };
 }
-function ot(e, t) {
+function te(t, e) {
   return [
     {
       x: {
-        _raw: e.slice(13, 15),
+        _raw: t.slice(13, 15),
         // index 13,14
-        _hex: t.slice(13, 15),
-        acc: ne(e.slice(13, 15)),
+        _hex: e.slice(13, 15),
+        acc: nt(t.slice(13, 15))
       },
       y: {
-        _raw: e.slice(15, 17),
+        _raw: t.slice(15, 17),
         // index 15,16
-        _hex: t.slice(15, 17),
-        acc: ne(e.slice(15, 17)),
+        _hex: e.slice(15, 17),
+        acc: nt(t.slice(15, 17))
       },
       z: {
-        _raw: e.slice(17, 19),
+        _raw: t.slice(17, 19),
         // index 17,18
-        _hex: t.slice(17, 19),
-        acc: ne(e.slice(17, 19)),
-      },
+        _hex: e.slice(17, 19),
+        acc: nt(t.slice(17, 19))
+      }
     },
     {
       x: {
-        _raw: e.slice(25, 27),
+        _raw: t.slice(25, 27),
         // index 25,26
-        _hex: t.slice(25, 27),
-        acc: ne(e.slice(25, 27)),
+        _hex: e.slice(25, 27),
+        acc: nt(t.slice(25, 27))
       },
       y: {
-        _raw: e.slice(27, 29),
+        _raw: t.slice(27, 29),
         // index 27,28
-        _hex: t.slice(27, 29),
-        acc: ne(e.slice(27, 29)),
+        _hex: e.slice(27, 29),
+        acc: nt(t.slice(27, 29))
       },
       z: {
-        _raw: e.slice(29, 31),
+        _raw: t.slice(29, 31),
         // index 29,30
-        _hex: t.slice(29, 31),
-        acc: ne(e.slice(29, 31)),
-      },
+        _hex: e.slice(29, 31),
+        acc: nt(t.slice(29, 31))
+      }
     },
     {
       x: {
-        _raw: e.slice(37, 39),
+        _raw: t.slice(37, 39),
         // index 37,38
-        _hex: t.slice(37, 39),
-        acc: ne(e.slice(37, 39)),
+        _hex: e.slice(37, 39),
+        acc: nt(t.slice(37, 39))
       },
       y: {
-        _raw: e.slice(39, 41),
+        _raw: t.slice(39, 41),
         // index 39,40
-        _hex: t.slice(39, 41),
-        acc: ne(e.slice(39, 41)),
+        _hex: e.slice(39, 41),
+        acc: nt(t.slice(39, 41))
       },
       z: {
-        _raw: e.slice(41, 43),
+        _raw: t.slice(41, 43),
         // index 41,42
-        _hex: t.slice(41, 43),
-        acc: ne(e.slice(41, 43)),
-      },
-    },
+        _hex: e.slice(41, 43),
+        acc: nt(t.slice(41, 43))
+      }
+    }
   ];
 }
-function it(e, t) {
+function ee(t, e) {
   return [
     [
       {
-        _raw: e.slice(19, 21),
+        _raw: t.slice(19, 21),
         // index 19,20
-        _hex: t.slice(19, 21),
-        dps: oe(e.slice(19, 21)),
-        rps: ie(e.slice(19, 21)),
+        _hex: e.slice(19, 21),
+        dps: ot(t.slice(19, 21)),
+        rps: st(t.slice(19, 21))
       },
       {
-        _raw: e.slice(21, 23),
+        _raw: t.slice(21, 23),
         // index 21,22
-        _hex: t.slice(21, 23),
-        dps: oe(e.slice(21, 23)),
-        rps: ie(e.slice(21, 23)),
+        _hex: e.slice(21, 23),
+        dps: ot(t.slice(21, 23)),
+        rps: st(t.slice(21, 23))
       },
       {
-        _raw: e.slice(23, 25),
+        _raw: t.slice(23, 25),
         // index 23,24
-        _hex: t.slice(23, 25),
-        dps: oe(e.slice(23, 25)),
-        rps: ie(e.slice(23, 25)),
-      },
+        _hex: e.slice(23, 25),
+        dps: ot(t.slice(23, 25)),
+        rps: st(t.slice(23, 25))
+      }
     ],
     [
       {
-        _raw: e.slice(31, 33),
+        _raw: t.slice(31, 33),
         // index 31,32
-        _hex: t.slice(31, 33),
-        dps: oe(e.slice(31, 33)),
-        rps: ie(e.slice(31, 33)),
+        _hex: e.slice(31, 33),
+        dps: ot(t.slice(31, 33)),
+        rps: st(t.slice(31, 33))
       },
       {
-        _raw: e.slice(33, 35),
+        _raw: t.slice(33, 35),
         // index 33,34
-        _hex: t.slice(33, 35),
-        dps: oe(e.slice(33, 35)),
-        rps: ie(e.slice(33, 35)),
+        _hex: e.slice(33, 35),
+        dps: ot(t.slice(33, 35)),
+        rps: st(t.slice(33, 35))
       },
       {
-        _raw: e.slice(35, 37),
+        _raw: t.slice(35, 37),
         // index 35,36
-        _hex: t.slice(35, 37),
-        dps: oe(e.slice(35, 37)),
-        rps: ie(e.slice(35, 37)),
-      },
+        _hex: e.slice(35, 37),
+        dps: ot(t.slice(35, 37)),
+        rps: st(t.slice(35, 37))
+      }
     ],
     [
       {
-        _raw: e.slice(43, 45),
+        _raw: t.slice(43, 45),
         // index 43,44
-        _hex: t.slice(43, 45),
-        dps: oe(e.slice(43, 45)),
-        rps: ie(e.slice(43, 45)),
+        _hex: e.slice(43, 45),
+        dps: ot(t.slice(43, 45)),
+        rps: st(t.slice(43, 45))
       },
       {
-        _raw: e.slice(45, 47),
+        _raw: t.slice(45, 47),
         // index 45,46
-        _hex: t.slice(45, 47),
-        dps: oe(e.slice(45, 47)),
-        rps: ie(e.slice(45, 47)),
+        _hex: e.slice(45, 47),
+        dps: ot(t.slice(45, 47)),
+        rps: st(t.slice(45, 47))
       },
       {
-        _raw: e.slice(47, 49),
+        _raw: t.slice(47, 49),
         // index 47,48
-        _hex: t.slice(47, 49),
-        dps: oe(e.slice(47, 49)),
-        rps: ie(e.slice(47, 49)),
-      },
-    ],
+        _hex: e.slice(47, 49),
+        dps: ot(t.slice(47, 49)),
+        rps: st(t.slice(47, 49))
+      }
+    ]
   ];
 }
-function st(e) {
-  const t = 5e-3 * e.length;
+function ne(t) {
+  const e = 5e-3 * t.length;
   return {
-    x: Number.parseFloat((de(e.map(([o]) => o)) * t).toFixed(6)),
-    y: Number.parseFloat((de(e.map(([, o]) => o)) * t).toFixed(6)),
-    z: Number.parseFloat((de(e.map(([, , o]) => o)) * t).toFixed(6)),
+    x: Number.parseFloat(
+      (ut(t.map(([o]) => o)) * e).toFixed(6)
+    ),
+    y: Number.parseFloat(
+      (ut(t.map(([, o]) => o)) * e).toFixed(6)
+    ),
+    z: Number.parseFloat(
+      (ut(t.map(([, , o]) => o)) * e).toFixed(6)
+    )
   };
 }
-function ye(e) {
-  const t = 5e-3 * e.length,
-    n = [
-      de(e.map((o) => o[0])),
-      de(e.map((o) => o[1])),
-      de(e.map((o) => o[2])),
-    ].map((o) => Number.parseFloat((o * t).toFixed(6)));
+function Rt(t) {
+  const e = 5e-3 * t.length, n = [
+    ut(t.map((o) => o[0])),
+    ut(t.map((o) => o[1])),
+    ut(t.map((o) => o[2]))
+  ].map((o) => Number.parseFloat((o * e).toFixed(6)));
   return {
     x: n[0],
     y: n[1],
-    z: n[2],
+    z: n[2]
   };
 }
-function ct(e, t) {
+function oe(t, e) {
   return {
-    _raw: e.slice(38, 2),
-    _hex: t.slice(38, 2),
-    strain: new DataView(e.buffer, 39, 2).getInt16(0, !0),
+    _raw: t.slice(38, 2),
+    _hex: e.slice(38, 2),
+    strain: new DataView(t.buffer, 39, 2).getInt16(0, !0)
   };
 }
-function rt(e, t) {
-  const n = new (Object.getPrototypeOf(e).constructor)(e.length + t.length);
-  return (n.set(e, 0), n.set(t, e.length), n);
+function se(t, e) {
+  const n = new (Object.getPrototypeOf(t)).constructor(
+    t.length + e.length
+  );
+  return n.set(t, 0), n.set(e, t.length), n;
 }
-class we extends EventTarget {
+class bt extends EventTarget {
+  eventListenerAttached = !1;
+  quaternion;
+  madgwick;
+  device;
+  lastValues;
+  ledstate = 0;
   /**
    * Creates an instance of the JoyCon class.
    *
@@ -1073,33 +733,13 @@ class we extends EventTarget {
    * Initializes the device and sets up the initial state for sensor values,
    * including timestamp, alpha, beta, and gamma.
    */
-  constructor(n) {
-    super();
-    ue(this, 'eventListenerAttached', !1);
-    ue(this, 'quaternion');
-    ue(this, 'madgwick');
-    ue(this, 'device');
-    ue(this, 'lastValues');
-    ue(this, 'ledstate', 0);
-    ((this.device = n),
-      (this.lastValues = {
-        timestamp: null,
-        alpha: 0,
-        beta: 0,
-        gamma: 0,
-      }),
-      n.productId === 8198
-        ? ((this.madgwick = new Re({
-            sampleInterval: 10,
-            algorithm: 'Madgwick',
-          })),
-          (this.quaternion = this.madgwick.getQuaternion()))
-        : n.productId === 8199 &&
-          ((this.madgwick = new Re({
-            sampleInterval: 10,
-            algorithm: 'Madgwick',
-          })),
-          (this.quaternion = this.madgwick.getQuaternion())));
+  constructor(e) {
+    super(), this.device = e, this.lastValues = {
+      timestamp: null,
+      alpha: 0,
+      beta: 0,
+      gamma: 0
+    }, (e.productId === 8198 || e.productId === 8199) && (this.madgwick = new Lt({ sampleInterval: 10, algorithm: "Madgwick" }), this.quaternion = this.madgwick.getQuaternion());
   }
   /**
    * Registers an event listener for a specific JoyCon event type.
@@ -1112,8 +752,8 @@ class we extends EventTarget {
    * @param options - Optional. An options object specifying characteristics about the event listener,
    *                  or a boolean indicating whether events of this type will be dispatched to the registered listener before being dispatched to any EventTarget beneath it in the DOM tree.
    */
-  on(n, o, a) {
-    super.addEventListener(n, o, a);
+  on(e, n, o) {
+    super.addEventListener(e, n, o);
   }
   /**
    * Opens a connection to the Joy-Con device if it is not already opened,
@@ -1122,11 +762,7 @@ class we extends EventTarget {
    * @returns {Promise<void>} A promise that resolves when the device is opened and the event listener is attached.
    */
   async open() {
-    (this.device.opened || (await this.device.open()),
-      this.device.addEventListener(
-        'inputreport',
-        this._onInputReport.bind(this)
-      ));
+    this.device.opened || await this.device.open(), this.device.addEventListener("inputreport", this._onInputReport.bind(this));
   }
   /**
    * Sends a request to the Joy-Con device to retrieve device information.
@@ -1138,17 +774,27 @@ class we extends EventTarget {
    * @returns A promise that resolves with the cleaned device information object.
    */
   async getRequestDeviceInfo() {
-    const a = [0, 0, 0, 0, 0, 0, 0, 0, 0, ...[2]],
-      p = new Promise((i) => {
-        const s = ({ detail: l }) => {
-          const { _raw: u, _hex: f, ...M } = l;
-          i(M);
-        };
-        this.addEventListener('deviceinfo', s, {
-          once: !0,
-        });
+    const o = [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      ...[2]
+    ], l = new Promise((h) => {
+      const s = ({ detail: u }) => {
+        const { _raw: a, _hex: r, ...p } = u;
+        h(p);
+      };
+      this.addEventListener("deviceinfo", s, {
+        once: !0
       });
-    return (await this.device.sendReport(1, new Uint8Array(a)), p);
+    });
+    return await this.device.sendReport(1, new Uint8Array(o)), l;
   }
   /**
    * Requests the current battery level from the Joy-Con device.
@@ -1160,17 +806,27 @@ class we extends EventTarget {
    * @returns {Promise<unknown>} A promise that resolves with the cleaned battery level data.
    */
   async getBatteryLevel() {
-    const a = [0, 0, 0, 0, 0, 0, 0, 0, 0, ...[80]],
-      p = new Promise((i) => {
-        const s = ({ detail: l }) => {
-          const { _raw: u, _hex: f, ...M } = l;
-          i(M);
-        };
-        this.addEventListener('batterylevel', s, {
-          once: !0,
-        });
+    const o = [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      ...[80]
+    ], l = new Promise((h) => {
+      const s = ({ detail: u }) => {
+        const { _raw: a, _hex: r, ...p } = u;
+        h(p);
+      };
+      this.addEventListener("batterylevel", s, {
+        once: !0
       });
-    return (await this.device.sendReport(1, new Uint8Array(a)), p);
+    });
+    return await this.device.sendReport(1, new Uint8Array(o)), l;
   }
   /**
    * Enables the Simple HID mode on the connected Joy-Con device.
@@ -1182,8 +838,19 @@ class we extends EventTarget {
    * @throws {DOMException} If the report cannot be sent to the device.
    */
   async enableSimpleHIDMode() {
-    const a = [0, 0, 0, 0, 0, 0, 0, 0, 0, ...[3, 63]];
-    await this.device.sendReport(1, new Uint8Array(a));
+    const o = [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      ...[3, 63]
+    ];
+    await this.device.sendReport(1, new Uint8Array(o));
   }
   /**
    * Enables the "Standard Full Mode" on the Joy-Con device by sending the appropriate subcommand.
@@ -1196,8 +863,19 @@ class we extends EventTarget {
    * @throws {Error} If the device communication fails.
    */
   async enableStandardFullMode() {
-    const a = [0, 0, 0, 0, 0, 0, 0, 0, 0, ...[3, 48]];
-    await this.device.sendReport(1, new Uint8Array(a));
+    const o = [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      ...[3, 48]
+    ];
+    await this.device.sendReport(1, new Uint8Array(o));
   }
   /**
    * Enables the IMU (Inertial Measurement Unit) mode on the Joy-Con device.
@@ -1209,8 +887,19 @@ class we extends EventTarget {
    * @throws Will throw an error if sending the report to the device fails.
    */
   async enableIMUMode() {
-    const a = [0, 0, 0, 0, 0, 0, 0, 0, 0, ...[64, 1]];
-    await this.device.sendReport(1, new Uint8Array(a));
+    const o = [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      ...[64, 1]
+    ];
+    await this.device.sendReport(1, new Uint8Array(o));
   }
   /**
    * Disables the IMU (Inertial Measurement Unit) mode on the connected Joy-Con device.
@@ -1223,8 +912,19 @@ class we extends EventTarget {
    * @throws Will throw an error if sending the report to the device fails.
    */
   async disableIMUMode() {
-    const a = [0, 0, 0, 0, 0, 0, 0, 0, 0, ...[64, 0]];
-    await this.device.sendReport(1, new Uint8Array(a));
+    const o = [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      ...[64, 0]
+    ];
+    await this.device.sendReport(1, new Uint8Array(o));
   }
   /**
    * Enables the vibration feature on the connected Joy-Con device.
@@ -1237,8 +937,19 @@ class we extends EventTarget {
    * @throws {DOMException} If sending the report to the device fails.
    */
   async enableVibration() {
-    const a = [0, 0, 1, 64, 64, 0, 1, 64, 64, ...[72, 1]];
-    await this.device.sendReport(1, new Uint8Array(a));
+    const o = [
+      0,
+      0,
+      1,
+      64,
+      64,
+      0,
+      1,
+      64,
+      64,
+      ...[72, 1]
+    ];
+    await this.device.sendReport(1, new Uint8Array(o));
   }
   /**
    * Disables the vibration feature on the connected Joy-Con controller.
@@ -1249,8 +960,19 @@ class we extends EventTarget {
    * @returns A promise that resolves when the vibration disable command has been sent.
    */
   async disableVibration() {
-    const a = [0, 0, 1, 64, 64, 0, 1, 64, 64, ...[72, 0]];
-    await this.device.sendReport(1, new Uint8Array(a));
+    const o = [
+      0,
+      0,
+      1,
+      64,
+      64,
+      0,
+      1,
+      64,
+      64,
+      ...[72, 0]
+    ];
+    await this.device.sendReport(1, new Uint8Array(o));
   }
   /**
    * Enables RingCon.
@@ -1259,7 +981,7 @@ class we extends EventTarget {
    * @seeAlso https://github.com/mascii/demo-of-ring-con-with-web-hid
    */
   async enableRingCon() {
-    await xe(this.device);
+    await Et(this.device);
   }
   /**
    * Enables the USB HID joystick report mode for the connected device.
@@ -1271,14 +993,9 @@ class we extends EventTarget {
    * @returns {Promise<void>} A promise that resolves once the reports have been sent.
    */
   async enableUSBHIDJoystickReport() {
-    var o;
-    ((o = this.device.collections[0].outputReports) == null
-      ? void 0
-      : o.find((a) => a.reportId === 128)) != null &&
-      (await this.device.sendReport(128, new Uint8Array([1])),
-      await this.device.sendReport(128, new Uint8Array([2])),
-      await this.device.sendReport(1, new Uint8Array([3])),
-      await this.device.sendReport(128, new Uint8Array([4])));
+    this.device.collections[0].outputReports?.find(
+      (n) => n.reportId === 128
+    ) != null && (await this.device.sendReport(128, new Uint8Array([1])), await this.device.sendReport(128, new Uint8Array([2])), await this.device.sendReport(1, new Uint8Array([3])), await this.device.sendReport(128, new Uint8Array([4])));
   }
   /**
    * Sends a rumble (vibration) command to the Joy-Con device with the specified frequency and amplitude parameters.
@@ -1293,35 +1010,66 @@ class we extends EventTarget {
    * clamps the input values to their valid ranges, and sends the resulting data packet via HID.
    * The rumble effect is applied to both left and right motors of the Joy-Con.
    */
-  async rumble(n, o, a) {
-    const p = (B, L, j) => Math.min(Math.max(B, L), j),
-      s = new Uint8Array(9);
+  async rumble(e, n, o) {
+    const l = (b, L, C) => Math.min(Math.max(b, L), C), s = new Uint8Array(9);
     s[0] = 0;
-    let l = p(n, 40.875885, 626.286133),
-      u = p(o, 81.75177, 1252.572266);
-    ((u = (Math.round(32 * Math.log2(u * 0.1)) - 96) * 4),
-      (l = Math.round(32 * Math.log2(l * 0.1)) - 64));
-    const f = p(a, 0, 1);
-    let M;
-    f === 0
-      ? (M = 0)
-      : f < 0.117
-        ? (M = (Math.log2(f * 1e3) * 32 - 96) / (5 - f ** 2) - 1)
-        : f < 0.23
-          ? (M = Math.log2(f * 1e3) * 32 - 96 - 92)
-          : (M = (Math.log2(f * 1e3) * 32 - 96) * 2 - 246);
-    let w = Math.round(M) * 0.5;
-    const R = w % 2;
-    (R > 0 && --w,
-      (w = w >> 1),
-      (w += 64),
-      R > 0 && (w |= 32768),
-      (s[1] = u & 255),
-      (s[2] = M + ((u >>> 8) & 255)),
-      (s[3] = l + ((w >>> 8) & 255)),
-      (s[4] += w & 255));
-    for (let B = 0; B < 4; B++) s[5 + B] = s[1 + B];
+    let u = l(e, 40.875885, 626.286133), a = l(n, 81.75177, 1252.572266);
+    a = (Math.round(32 * Math.log2(a * 0.1)) - 96) * 4, u = Math.round(32 * Math.log2(u * 0.1)) - 64;
+    const r = l(o, 0, 1);
+    let p;
+    r === 0 ? p = 0 : r < 0.117 ? p = (Math.log2(r * 1e3) * 32 - 96) / (5 - r ** 2) - 1 : r < 0.23 ? p = Math.log2(r * 1e3) * 32 - 96 - 92 : p = (Math.log2(r * 1e3) * 32 - 96) * 2 - 246;
+    let q = Math.round(p) * 0.5;
+    const I = q % 2;
+    I > 0 && --q, q = q >> 1, q += 64, I > 0 && (q |= 32768), s[1] = a & 255, s[2] = p + (a >>> 8 & 255), s[3] = u + (q >>> 8 & 255), s[4] += q & 255;
+    for (let b = 0; b < 4; b++)
+      s[5 + b] = s[1 + b];
     await this.device.sendReport(16, new Uint8Array(s));
+  }
+  /**
+   * Sets the blinking pattern for the Home LED on the Right Joy-Con device.
+   *
+   * Sends a subcommand to the device to control the Home LED.
+   *
+   * @param miniCycleDuration: Global mini cycle duration. 0-15. 0: off, 1: 8ms, ... , 15: 175ms
+   * @param numCycles: Number of full cycles. 0-15. 0: repeat forever.
+   * @param startIntensity: Initial LED intensity. 0-15.
+   * @param cycleData: Array of {@link HomeLEDpatterns}. The maximum count of the array is 15.
+   */
+  /* Inspired by the JoyConSwift library */
+  async setHomeLEDPattern(e, n, o, l) {
+    const h = (L, C, O) => Math.min(Math.max(L, C), O), u = Math.min(l.length, 15), a = u << 4 | h(e, 0, 15), r = h(o, 0, 15) << 4 | h(n, 0, 15), p = [a, r], q = {
+      intensity: 15,
+      fadeDuration: 0,
+      duration: 0
+    }, I = l.slice(0, u).concat(Array(16 - u).fill(q));
+    for (let L = 0; L < 8; L++) {
+      const C = I[L * 2], O = I[L * 2 + 1], A = h(C.intensity, 0, 15), k = h(C.fadeDuration, 0, 15), x = h(C.duration, 0, 15), R = h(O.intensity, 0, 15), _ = h(O.fadeDuration, 0, 15), S = h(O.duration, 0, 15);
+      p.push(A << 4 | R), p.push(k << 4 | x), p.push(_ << 4 | S);
+    }
+    p.pop();
+    const b = [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      56,
+      ...p
+    ];
+    await this.device.sendReport(1, new Uint8Array(b));
+  }
+  /**
+   * Turn `on` or `off` the Home LED on the Right Joy-Con device.
+   *
+   * @param {boolean} on - If true, the LED will be turned on permanently. Turn the LED off otherwise.
+   *
+   */
+  async setHomeLED(e) {
+    e === !0 ? await this.setHomeLEDPattern(1, 0, 15, []) : await this.setHomeLEDPattern(0, 1, 0, []);
   }
   /**
    * Sets the LED state on the Joy-Con device.
@@ -1331,10 +1079,12 @@ class we extends EventTarget {
    * @param n - The LED state value to set. The value determines which LEDs are turned on or off.
    * @returns A promise that resolves when the command has been sent to the device.
    */
-  async setLEDState(n) {
-    const o = [0, 0, 0, 0, 0, 0, 0, 0],
-      a = [48, n];
-    await this.device.sendReport(1, new Uint8Array([...o, 0, ...a]));
+  async setLEDState(e) {
+    const n = [0, 0, 0, 0, 0, 0, 0, 0], o = [48, e];
+    await this.device.sendReport(
+      1,
+      new Uint8Array([...n, 0, ...o])
+    );
   }
   /**
    * Sets the specified LED on the Joy-Con controller.
@@ -1345,8 +1095,8 @@ class we extends EventTarget {
    * @param n - The index of the LED to turn on (0-based).
    * @returns A promise that resolves when the LED state has been updated.
    */
-  async setLED(n) {
-    ((this.ledstate |= 1 << n), await this.setLEDState(this.ledstate));
+  async setLED(e) {
+    this.ledstate |= 1 << e, await this.setLEDState(this.ledstate);
   }
   /**
    * Resets (turns off) the LED at the specified index by clearing its corresponding bits
@@ -1355,9 +1105,8 @@ class we extends EventTarget {
    * @param n - The index of the LED to reset (0-based).
    * @returns A promise that resolves when the LED state has been updated.
    */
-  async resetLED(n) {
-    ((this.ledstate &= ~((1 << n) | (1 << (4 + n)))),
-      await this.setLEDState(this.ledstate));
+  async resetLED(e) {
+    this.ledstate &= ~(1 << e | 1 << 4 + e), await this.setLEDState(this.ledstate);
   }
   /**
    * Blinks the specified LED on the Joy-Con controller.
@@ -1369,10 +1118,8 @@ class we extends EventTarget {
    * @param n - The index of the LED to blink (typically 0-3).
    * @returns A promise that resolves when the LED state has been updated.
    */
-  async blinkLED(n) {
-    ((this.ledstate &= ~(1 << n)),
-      (this.ledstate |= 1 << (4 + n)),
-      await this.setLEDState(this.ledstate));
+  async blinkLED(e) {
+    this.ledstate &= ~(1 << e), this.ledstate |= 1 << 4 + e, await this.setLEDState(this.ledstate);
   }
   /**
    * Handles the HID input report event from a Joy-Con device, parses the incoming data,
@@ -1387,99 +1134,115 @@ class we extends EventTarget {
    *
    * @private
    */
-  _onInputReport({ data: n, reportId: o, device: a }) {
-    var l, u;
-    if (!n) return;
-    const p = rt(new Uint8Array([o]), new Uint8Array(n.buffer)),
-      i = Array.from(p)
-        .map((f) => f.toString(16).padStart(2, '0'))
-        .join('');
+  _onInputReport({ data: e, reportId: n, device: o }) {
+    if (!e)
+      return;
+    const l = se(
+      new Uint8Array([n]),
+      new Uint8Array(e.buffer)
+    ), h = Array.from(l).map((u) => u.toString(16).padStart(2, "0")).join("");
     let s = {
-      inputReportID: Te(p, i),
+      inputReportID: Ot(l, h)
     };
-    switch (o) {
+    switch (n) {
       case 63: {
         s = {
           ...s,
-          buttonStatus: Ke(p, i),
-          analogStick: We(p, i),
-          filter: Ze(p, i),
+          buttonStatus: Tt(l, h),
+          analogStick: Gt(l, h),
+          filter: Wt(l, h)
         };
         break;
       }
       case 33:
       case 48: {
-        if (
-          ((s = {
+        if (s = {
+          ...s,
+          timer: jt(l, h),
+          batteryLevel: Jt(l, h),
+          connectionInfo: Qt(l, h),
+          buttonStatus: $t(
+            l,
+            h
+          ),
+          analogStickLeft: Kt(l, h),
+          analogStickRight: Vt(
+            l,
+            h
+          ),
+          vibrator: Xt(l, h)
+        }, n === 33 && (s = {
+          ...s,
+          ack: Yt(l, h),
+          subcommandID: Zt(l, h),
+          subcommandReplyData: zt(
+            l,
+            h
+          ),
+          deviceInfo: Ht(l)
+        }), n === 48) {
+          const u = te(
+            l,
+            h
+          ), a = ee(l, h), r = Rt(
+            a.map((I) => I.map((b) => b.rps ?? 0))
+          ), p = Rt(
+            a.map((I) => I.map((b) => b.dps ?? 0))
+          ), q = ne(
+            u.map((I) => [
+              I.x.acc ?? 0,
+              I.y.acc ?? 0,
+              I.z.acc ?? 0
+            ])
+          );
+          this.madgwick.update(r.x, r.y, r.z, q.x, q.y, q.z), s = {
             ...s,
-            timer: $e(p, i),
-            batteryLevel: Ge(p, i),
-            connectionInfo: De(p, i),
-            buttonStatus: Ve(p, i),
-            analogStickLeft: Xe(p, i),
-            analogStickRight: Ye(p, i),
-            vibrator: ze(p, i),
-          }),
-          o === 33 &&
-            (s = {
-              ...s,
-              ack: et(p, i),
-              subcommandID: tt(p, i),
-              subcommandReplyData: nt(p, i),
-              deviceInfo: Qe(p),
-            }),
-          o === 48)
-        ) {
-          const f = ot(p, i),
-            M = it(p, i),
-            w = ye(M.map((L) => L.map((j) => j.rps ?? 0))),
-            R = ye(M.map((L) => L.map((j) => j.dps ?? 0))),
-            B = st(f.map((L) => [L.x.acc ?? 0, L.y.acc ?? 0, L.z.acc ?? 0]));
-          (this.madgwick.update(w.x, w.y, w.z, B.x, B.y, B.z),
-            (s = {
-              ...s,
-              accelerometers: f,
-              gyroscopes: M,
-              actualAccelerometer: B,
-              actualGyroscope: { dps: R, rps: w },
-              actualOrientation: je(this.lastValues, w, B, a.productId),
-              actualOrientationQuaternion: Je(this.quaternion),
-              quaternion: this.quaternion,
-              ringCon: ct(p, i),
-            }));
+            accelerometers: u,
+            gyroscopes: a,
+            actualAccelerometer: q,
+            actualGyroscope: { dps: p, rps: r },
+            actualOrientation: Pt(
+              this.lastValues,
+              r,
+              q,
+              o.productId
+            ),
+            actualOrientationQuaternion: Dt(
+              this.quaternion
+            ),
+            quaternion: this.quaternion,
+            ringCon: oe(l, h)
+          };
         }
         break;
       }
     }
-    ((l = s.deviceInfo) != null &&
-      l.type &&
-      this._receiveDeviceInfo(s.deviceInfo),
-      (u = s.batteryLevel) != null &&
-        u.level &&
-        this._receiveBatteryLevel(s.batteryLevel),
-      this._receiveInputEvent(s));
+    s.deviceInfo?.type && this._receiveDeviceInfo(s.deviceInfo), s.batteryLevel?.level && this._receiveBatteryLevel(s.batteryLevel), this._receiveInputEvent(s);
   }
   /**
    * Dispatches a "deviceinfo" custom event with the provided device information as its detail.
    *
    * @param deviceInfo - The information about the device to be included in the event detail.
    */
-  _receiveDeviceInfo(n) {
-    this.dispatchEvent(new CustomEvent('deviceinfo', { detail: n }));
+  _receiveDeviceInfo(e) {
+    this.dispatchEvent(new CustomEvent("deviceinfo", { detail: e }));
   }
   /**
    * Dispatches a "batterylevel" custom event with the provided battery level detail.
    *
    * @param batteryLevel - The battery level information to include in the event detail.
    */
-  _receiveBatteryLevel(n) {
-    this.dispatchEvent(new CustomEvent('batterylevel', { detail: n }));
+  _receiveBatteryLevel(e) {
+    this.dispatchEvent(
+      new CustomEvent("batterylevel", { detail: e })
+    );
   }
   // To be overridden by subclasses
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _receiveInputEvent(n) {}
+  _receiveInputEvent(e) {
+  }
 }
-class lt extends we {
+class ie extends bt {
   /**
    * Handles an input event packet by removing specific button statuses and dispatching a custom "hidinput" event.
    *
@@ -1498,116 +1261,81 @@ class lt extends we {
    *
    * After modifying the packet, it dispatches a `CustomEvent` named "hidinput" with the modified packet as its detail.
    */
-  _receiveInputEvent(t) {
-    const n = t.buttonStatus;
-    ((n.x = void 0),
-      (n.y = void 0),
-      (n.b = void 0),
-      (n.a = void 0),
-      (n.plus = void 0),
-      (n.r = void 0),
-      (n.zr = void 0),
-      (n.home = void 0),
-      (n.rightStick = void 0),
-      this.dispatchEvent(new CustomEvent('hidinput', { detail: t })));
+  _receiveInputEvent(e) {
+    const n = e.buttonStatus;
+    n.x = void 0, n.y = void 0, n.b = void 0, n.a = void 0, n.plus = void 0, n.r = void 0, n.zr = void 0, n.home = void 0, n.rightStick = void 0, this.dispatchEvent(new CustomEvent("hidinput", { detail: e }));
   }
 }
-class at extends we {
+class ce extends bt {
   /**
    * Handles an input event packet from the Joy-Con device, sanitizes specific button statuses by setting them to `undefined`,
    * and dispatches a "hidinput" custom event with the modified packet as its detail.
    *
    * @param packet - The input event data received from the Joy-Con, expected to contain a `buttonStatus` property.
    */
-  _receiveInputEvent(t) {
-    const n = t.buttonStatus;
-    ((n.up = void 0),
-      (n.down = void 0),
-      (n.left = void 0),
-      (n.right = void 0),
-      (n.minus = void 0),
-      (n.l = void 0),
-      (n.zl = void 0),
-      (n.capture = void 0),
-      (n.leftStick = void 0),
-      this.dispatchEvent(new CustomEvent('hidinput', { detail: t })));
+  _receiveInputEvent(e) {
+    const n = e.buttonStatus;
+    n.up = void 0, n.down = void 0, n.left = void 0, n.right = void 0, n.minus = void 0, n.l = void 0, n.zl = void 0, n.capture = void 0, n.leftStick = void 0, this.dispatchEvent(new CustomEvent("hidinput", { detail: e }));
   }
 }
-class ut extends we {
+class re extends bt {
   /**
    * Dispatches a "hidinput" custom event with the provided packet as its detail.
    *
    * @param packet - The input data received from the HID device.
    */
-  _receiveInputEvent(t) {
-    this.dispatchEvent(new CustomEvent('hidinput', { detail: t }));
+  _receiveInputEvent(e) {
+    this.dispatchEvent(new CustomEvent("hidinput", { detail: e }));
   }
 }
-const dt = async (e) => {
-    let t = null;
-    return (
-      e.productId === 8198
-        ? (t = new lt(e))
-        : e.productId === 8199 &&
-          e.productName === 'Joy-Con (R)' &&
-          (t = new at(e)),
-      t || (t = new ut(e)),
-      await t.open(),
-      await t.enableUSBHIDJoystickReport(),
-      await t.enableStandardFullMode(),
-      await t.enableIMUMode(),
-      t
-    );
-  },
-  Se = /* @__PURE__ */ new Map(),
-  be = [],
-  ke = (e) => {
-    const t = be.indexOf(e);
-    return t >= 0 ? t : (be.push(e), be.length - 1);
-  },
-  qe = async (e) => {
-    const t = ke(e);
-    (console.log(
-      `HID connected: ${t} ${e.productId.toString(16)} ${e.productName}`
-    ),
-      Se.set(t, await dt(e)));
-  },
-  ht = async (e) => {
-    const t = ke(e);
-    (console.log(
-      `HID disconnected: ${t} ${e.productId.toString(16)} ${e.productName}`
-    ),
-      Se.delete(t));
-  };
-navigator.hid.addEventListener('connect', async ({ device: e }) => {
-  qe(e);
+const le = async (t) => {
+  let e = null;
+  return t.productId === 8198 ? e = new ie(t) : t.productId === 8199 && t.productName === "Joy-Con (R)" && (e = new ce(t)), e || (e = new re(t)), await e.open(), await e.enableUSBHIDJoystickReport(), await e.enableStandardFullMode(), await e.enableIMUMode(), e;
+}, yt = /* @__PURE__ */ new Map(), mt = [], gt = (t) => {
+  const e = mt.indexOf(t);
+  return e >= 0 ? e : (mt.push(t), mt.length - 1);
+}, wt = async (t) => {
+  const e = gt(t);
+  console.log(
+    `HID connected: ${e} ${t.productId.toString(16)} ${t.productName}`
+  ), yt.set(e, await le(t));
+}, ae = async (t) => {
+  const e = gt(t);
+  console.log(
+    `HID disconnected: ${e} ${t.productId.toString(16)} ${t.productName}`
+  ), yt.delete(e);
+};
+navigator.hid.addEventListener("connect", async ({ device: t }) => {
+  wt(t);
 });
-navigator.hid.addEventListener('disconnect', ({ device: e }) => {
-  ht(e);
+navigator.hid.addEventListener("disconnect", ({ device: t }) => {
+  ae(t);
 });
-document.addEventListener('DOMContentLoaded', async () => {
-  const e = await navigator.hid.getDevices();
-  for (const t of e) await qe(t);
+document.addEventListener("DOMContentLoaded", async () => {
+  const t = await navigator.hid.getDevices();
+  for (const e of t)
+    await wt(e);
 });
-const ft = async () => {
-  const e = [
+const ue = async () => {
+  const t = [
     {
-      vendorId: 1406,
+      vendorId: 1406
       // Nintendo Co., Ltd
-    },
+    }
   ];
   try {
-    const [t] = await navigator.hid.requestDevice({ filters: e });
-    if (!t) return;
-    await qe(t);
-  } catch (t) {
-    t instanceof Error ? console.error(t.name, t.message) : console.error(t);
+    const [e] = await navigator.hid.requestDevice({ filters: t });
+    if (!e)
+      return;
+    await wt(e);
+  } catch (e) {
+    e instanceof Error ? console.error(e.name, e.message) : console.error(e);
   }
 };
 export {
-  ut as GeneralController,
-  lt as JoyConLeft,
-  at as JoyConRight,
-  ft as connectJoyCon,
-  Se as connectedJoyCons,
+  re as GeneralController,
+  ie as JoyConLeft,
+  ce as JoyConRight,
+  ue as connectJoyCon,
+  yt as connectedJoyCons
 };
